@@ -1,12 +1,40 @@
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useReducer } from 'react';
 import "./HoneyMap.css"
 import hivesForChoose from '../../constants/hives';
 import { SquareHive } from './components/SquareHive';
 import EachHive from './components/EachHive';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { ModalHive } from './components/ModalHive';
 
+
+function reducer(state, action) {
+    if (action.type === 'move') {
+        return (
+            state.map((el) => {
+                if (el.id == action.id) {
+                    return { ...el, cords: { x: action.x, y: action.y } }
+                }
+            })
+        );
+    }
+    else if (action.type === 'addHive') {
+        return (
+            [...state, action.newHive]
+        );
+    }
+    throw Error('Unknown action.');
+}
 const HoneyMap = () => {
+    const [hivesOnTheField, actHiveToField] = useReducer(reducer, [{
+        id: 3,
+        cords: {
+            x: 0,
+            y: 0,
+        },
+        img: "src/assets/apiary" + 3 + ".png",
+        info: "",
+    }])
 
     const [hivePostion, moveHiveTo] = useState({
         x: 7,
@@ -29,19 +57,17 @@ const HoneyMap = () => {
         )
     }
 
-    console.log(hivesForChoose)
+    console.log(hivesOnTheField)
     return (
         <DndProvider backend={HTML5Backend}>
 
-            <button >
-                Заполнить поле
-            </button>
+            <ModalHive />
             <div style={{
                 width: "512px",
                 height: "512px",
-                border: "1px solid gray"
             }}>
                 <div style={{
+                    borderRadius: "20px",
                     backgroundImage: "url(src/assets/field.jpg)",
                     width: '100%',
                     height: '100%',
@@ -53,7 +79,23 @@ const HoneyMap = () => {
                     })}
                 </div>
             </div>
-        </DndProvider>
+
+            <button onClick={() => actHiveToField({ type: "move", id: 3, x: 1, y: 2, })}>fktt</button>
+            <button onClick={() => actHiveToField({
+                type: "addHive", newHive:
+                {
+                    id: 5,
+                    cords: {
+                        x: 5,
+                        y: 6,
+                    },
+                    img: "src/assets/apiary" + 6 + ".png",
+                    info: "",
+
+                }
+            })}>fktt</button>
+
+        </DndProvider >
 
     );
 };
