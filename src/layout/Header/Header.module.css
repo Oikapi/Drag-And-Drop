@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.yellowHeader {
+    background-color: #F3D250;
+    /* Желтый цвет для шапки */
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 20px 20px 150px 150px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: black
+        /* Белый цвет для текста логотипа */
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    /* Белый цвет для текста ссылок в навигации */
+    font-size: 18px;
+}
+
+/* При необходимости добавьте дополнительные стили или стили для адаптивности */

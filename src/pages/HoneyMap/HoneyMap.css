@@ -1,0 +1,14 @@
+.hiveField {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    background-color: aquamarine;
+}
+
+.eachHive {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    -webkit-background-size: 100%;
+    cursor: pointer;
+}
