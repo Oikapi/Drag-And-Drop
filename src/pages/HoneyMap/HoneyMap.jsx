@@ -9,11 +9,15 @@ import { ModalHive } from './components/ModalHive';
 
 
 function reducer(state, action) {
+    console.log(action)
     if (action.type === 'move') {
         return (
+
             state.map((el) => {
                 if (el.id == action.id) {
-                    return { ...el, cords: { x: action.x, y: action.y } }
+                    return { ...el, cords: action.cords }
+                } else {
+                    return el
                 }
             })
         );
@@ -29,39 +33,53 @@ const HoneyMap = () => {
     const [hivesOnTheField, actHiveToField] = useReducer(reducer, [{
         id: 3,
         cords: {
-            x: 0,
-            y: 0,
+            x: 1,
+            y: 1,
         },
         img: "src/assets/apiary" + 3 + ".png",
         info: "",
     }])
-
-    const [hivePostion, moveHiveTo] = useState({
-        x: 7,
-        y: 4,
-    })
-
+    console.log(hivesOnTheField)
     const squares = []
     for (let i = 0; i < 64; i++) {
-        squares.push(renderSquare(i, hivePostion, hivesForChoose[0]))
+        squares.push(renderSquare(i))
     }
-    function renderSquare(i, coorHive, hiveObj) {
+    function renderSquare(i) {
         console.log("render squra")
         const x = i % 8
         const y = Math.floor(i / 8)
-        const hiveInSquare = x === coorHive.x && y === coorHive.y
         const color = i % 2 == 0 ? "#5CDB95" : "#379683"
-        const Hive = hiveInSquare ? <EachHive el={hiveObj} /> : null
+        const hiveInSquare = hivesOnTheField.find((el) => {
+            if (el.cords.x === x && el.cords.y === y) {
+                return true
+            }
+            else {
+                // console.log(el.cords, x, y)
+                return false
+            }
+
+        })
+        const hiveId = typeof (hiveInSquare) === "undefined" ? null : hiveInSquare.id
+        // console.log(typeof (Hive) === "undefined")
         return (
-            <SquareHive key={i} callback={moveHiveTo} x={x} y={y} color={color}>{Hive}</SquareHive>
+            <SquareHive key={i}
+                callback={(data) => actHiveToField({ type: "move", cords: { x: x, y: y }, id: data.id })}
+                color={color}>{typeof (hiveInSquare) === "undefined" ? null : <EachHive el={hiveInSquare} />}</SquareHive>
         )
+    }
+
+    const AddNewHive = (id) => {
+
+        const newHive = hivesForChoose[id]
+        console.log(id)
+        actHiveToField({ type: "addHive", newHive: { ...newHive, cords: { x: 1, y: 5 } } })
     }
 
     console.log(hivesOnTheField)
     return (
         <DndProvider backend={HTML5Backend}>
 
-            <ModalHive />
+            <ModalHive callback={(id) => AddNewHive(id)} />
             <div style={{
                 width: "512px",
                 height: "512px",
@@ -79,21 +97,6 @@ const HoneyMap = () => {
                     })}
                 </div>
             </div>
-
-            <button onClick={() => actHiveToField({ type: "move", id: 3, x: 1, y: 2, })}>fktt</button>
-            <button onClick={() => actHiveToField({
-                type: "addHive", newHive:
-                {
-                    id: 5,
-                    cords: {
-                        x: 5,
-                        y: 6,
-                    },
-                    img: "src/assets/apiary" + 6 + ".png",
-                    info: "",
-
-                }
-            })}>fktt</button>
 
         </DndProvider >
 

@@ -6,7 +6,7 @@ import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 import { useState } from 'react';
 import hivesForChoose from '../../../constants/hives';
 
-export const ModalHive = (callback) => {
+export const ModalHive = ({ callback }) => {
     const [checked, setChecked] = useState(false);
     const [radioValue, setRadioValue] = useState(1);
     const [show, setShow] = useState(false);

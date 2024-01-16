@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDrop } from 'react-dnd'
 
-export const SquareHive = ({ color, children, x, y, callback }) => {
+export const SquareHive = ({ color, children, callback }) => {
     const [{ isOver }, dropRef] = useDrop({
         accept: "hive",
-        drop: () => { callback({ x, y }) },
+        drop: (data) => callback(data),
         collect: monitor => ({
             isOver: !!monitor.isOver(),
         }),

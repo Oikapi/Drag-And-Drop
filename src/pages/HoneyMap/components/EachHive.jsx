@@ -6,6 +6,7 @@ const EachHive = ({ el }) => {
         type: "hive",
         item: el
     })
+    console.log(el)
     return (
         <div className='Hive' ref={dragRef}>
             {/* <p>{el.id}</p> */}
